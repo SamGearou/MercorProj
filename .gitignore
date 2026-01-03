@@ -51,7 +51,7 @@ alertmanager-data/
 ### Sensitive Configuration ###
 # Note: alertmanager.yml contains email password - should be kept private
 # Consider using environment variables or secrets management in production
-# alertmanager.yml
+alertmanager.yml
 
 ### Application Logs ###
 logs/
