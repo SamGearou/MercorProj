@@ -43,7 +43,9 @@ Share how you observe the system
 Describe what breaks under load
 * Large POST requests of data
   * network throughput
-  * DB (50TB+)
+  * DB 
+    * Storage: (50TB+)
+    * 
 * Packet loss/increase latency for high QPS to endpoints
   * 
 
