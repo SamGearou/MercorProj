@@ -26,6 +26,7 @@ Share how you designed it
   * scrape configs 
   * basic prometheus architecture
   * prometheus metrics in UI
+  * alerting rules (alert_rules.yml)
   * alert emails + alert UI
   * improvements
     * better alerting mechanism for teams
@@ -77,6 +78,7 @@ Describe what would you do if you have more time
   * K8s with deployments + pods
     * K8s pod liveness/readiness probes
     * deployment/pod metrics
+    * argocd for rollout
 * Security
   * restrict SSH access to hosts (privileged roles, etc)
   * kernel/sysctl tuning on hosts (swap space, tcp buffer sizes, tcp dump locations, etc)
@@ -84,3 +86,5 @@ Describe what would you do if you have more time
 * API rate limiting
 * Video/image support in addition to text
 * Blob store rather than SQL database for storage
+* Integration testing against the current application + dependencies
+  * K8s - Sonobuoy (K8s_conformance, custom plugins, etc)
