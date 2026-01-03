@@ -1,0 +1,77 @@
+global:
+  resolve_timeout: 5m
+  smtp_smarthost: 'smtp.gmail.com:587'
+  smtp_from: 'your-email@gmail.com'
+  smtp_auth_username: 'your-email@gmail.com'
+  smtp_auth_password: 'your-app-password'  # Use Gmail App Password
+  smtp_require_tls: true
+
+route:
+  group_by: ['alertname', 'cluster', 'service']
+  group_wait: 10s
+  group_interval: 10s
+  repeat_interval: 12h
+  receiver: 'email-notifications'
+  routes:
+    - match:
+        severity: critical
+      receiver: 'email-critical'
+      continue: true
+    - match:
+        severity: warning
+      receiver: 'email-notifications'
+
+receivers:
+  - name: 'email-notifications'
+    email_configs:
+      - to: 'your-email@gmail.com'
+        headers:
+          Subject: 'Object Store Alert: {{ .GroupLabels.alertname }}'
+        html: |
+          <h2>Alert: {{ .GroupLabels.alertname }}</h2>
+          <p><strong>Status:</strong> {{ .Status }}</p>
+          <p><strong>Severity:</strong> {{ .CommonLabels.severity }}</p>
+          <h3>Alerts:</h3>
+          <ul>
+          {{ range .Alerts }}
+            <li>
+              <strong>{{ .Labels.alertname }}</strong><br>
+              <strong>Instance:</strong> {{ .Labels.instance }}<br>
+              <strong>Description:</strong> {{ .Annotations.description }}<br>
+              <strong>Summary:</strong> {{ .Annotations.summary }}<br>
+              <strong>Started:</strong> {{ .StartsAt.Format "2006-01-02 15:04:05" }}
+            </li>
+          {{ end }}
+          </ul>
+          <p><strong>View in Prometheus:</strong> <a href="http://localhost:9090/alerts">http://localhost:9090/alerts</a></p>
+
+  - name: 'email-critical'
+    email_configs:
+      - to: 'your-email@gmail.com'
+        headers:
+          Subject: '🚨 CRITICAL: Object Store Alert - {{ .GroupLabels.alertname }}'
+        html: |
+          <h2 style="color: red;">🚨 CRITICAL ALERT: {{ .GroupLabels.alertname }}</h2>
+          <p><strong>Status:</strong> {{ .Status }}</p>
+          <p><strong>Severity:</strong> {{ .CommonLabels.severity }}</p>
+          <h3>Alerts:</h3>
+          <ul>
+          {{ range .Alerts }}
+            <li>
+              <strong>{{ .Labels.alertname }}</strong><br>
+              <strong>Instance:</strong> {{ .Labels.instance }}<br>
+              <strong>Description:</strong> {{ .Annotations.description }}<br>
+              <strong>Summary:</strong> {{ .Annotations.summary }}<br>
+              <strong>Started:</strong> {{ .StartsAt.Format "2006-01-02 15:04:05" }}
+            </li>
+          {{ end }}
+          </ul>
+          <p><strong>View in Prometheus:</strong> <a href="http://localhost:9090/alerts">http://localhost:9090/alerts</a></p>
+
+inhibit_rules:
+  - source_match:
+      severity: 'critical'
+    target_match:
+      severity: 'warning'
+    equal: ['alertname', 'instance']
+
