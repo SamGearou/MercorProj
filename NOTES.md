@@ -35,10 +35,10 @@ Share how you designed it
 
 Share how you observe the system
 * docker container logs
+* metrics
   * improvements
     * no historical logs, only point in time. Need to leverage a system for shipping + persisting log data (Humio, Splunk, etc)
     * no alerts on logging (in Humio, you can alert on a pre-defined humio query)
-  * 
 
 Describe what breaks under load
 * Large POST requests of data
@@ -68,7 +68,6 @@ Describe what would you do if you have more time
   * Downsampling (reduced granularity)
   * Data sanitation
     * PII, and other critical information shouldn't be visible in metrics and logs
-* Pre-signed URLs for data retrieval
 * Historical alerting data
 * metric "priorities" during high cardinality situations during a sev
 * tagging for docker containers + auto-promotion
@@ -82,3 +81,6 @@ Describe what would you do if you have more time
   * restrict SSH access to hosts (privileged roles, etc)
   * kernel/sysctl tuning on hosts (swap space, tcp buffer sizes, tcp dump locations, etc)
   * containers running with least-privilege
+* API rate limiting
+* Video/image support in addition to text
+* Blob store rather than SQL database for storage
