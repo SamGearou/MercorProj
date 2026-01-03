@@ -2,15 +2,9 @@
 
 A Java Spring Boot application that acts as an object store for text data, with REST API endpoints for reading and writing data to a PostgreSQL database.
 
-**Quick Start with Prometheus & Alerting:**
-```bash
-docker-compose up -d
-# Access application: http://localhost:8080
-# Access Prometheus UI: http://localhost:9090
-# Access Alertmanager UI: http://localhost:9093
-```
-
-**⚠️ Important:** Before starting, configure Gmail App Password in `alertmanager.yml` (see [ALERT_SETUP.md](ALERT_SETUP.md))
+**Quick Start:**
+- **Local Development:** See [Running the Application](#running-the-application) section below
+- **Docker Deployment:** See [DOCKER.md](DOCKER.md) for complete Docker setup instructions
 
 ## Features
 
@@ -31,7 +25,7 @@ docker-compose up -d
 - macOS, Linux, or Windows
 
 ### For Docker Deployment
-- Docker 20.10+ and Docker Compose 2.0+ (optional, for containerized deployment)
+See [DOCKER.md](DOCKER.md) for Docker prerequisites and setup instructions.
 
 ## Database Setup
 
@@ -159,142 +153,7 @@ spring.datasource.password=your_password
 
 ### Option 4: Using Docker
 
-The application can be run in a Docker container with PostgreSQL included.
-
-#### Prerequisites
-- Docker and Docker Compose installed
-
-#### Quick Start with Docker Compose
-
-The easiest way to run the entire stack (application + database):
-
-```bash
-# Build and start all services
-docker-compose up --build
-
-# Or run in detached mode
-docker-compose up -d --build
-
-# View logs
-docker-compose logs -f app
-
-# Stop all services
-docker-compose down
-
-# Stop and remove volumes (clears database data)
-docker-compose down -v
-```
-
-The application will be available at `http://localhost:8080` and PostgreSQL at `localhost:5432`.
-
-#### Building the Docker Image
-
-Build the Docker image manually:
-
-```bash
-# Build the image
-docker build -t objectstore-app:latest .
-
-# Run the container (requires external PostgreSQL)
-docker run -d \
-  --name objectstore-app \
-  -p 8080:8080 \
-  -e SPRING_DATASOURCE_URL=jdbc:postgresql://host.docker.internal:5432/objectstore \
-  -e SPRING_DATASOURCE_USERNAME=postgres \
-  -e SPRING_DATASOURCE_PASSWORD=postgres \
-  -e LOG_LEVEL=INFO \
-  objectstore-app:latest
-```
-
-#### Docker Environment Variables
-
-You can configure the application using environment variables:
-
-| Variable | Description | Default |
-|----------|-------------|---------|
-| `SPRING_DATASOURCE_URL` | PostgreSQL connection URL | `jdbc:postgresql://localhost:5432/objectstore` |
-| `SPRING_DATASOURCE_USERNAME` | Database username | `postgres` |
-| `SPRING_DATASOURCE_PASSWORD` | Database password | `postgres` |
-| `SERVER_PORT` | Application port | `8080` |
-| `LOG_LEVEL` | Logging level (ERROR, WARN, INFO, DEBUG, TRACE) | `INFO` |
-| `JAVA_OPTS` | JVM options | `-Xmx512m -Xms256m` |
-
-#### Docker Commands
-
-```bash
-# Build the image
-docker build -t objectstore-app .
-
-# Run container with custom environment variables
-docker run -d \
-  -p 8080:8080 \
-  -e LOG_LEVEL=DEBUG \
-  -e SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/objectstore \
-  objectstore-app
-
-# View container logs
-docker logs -f objectstore-app
-
-# Execute commands in running container
-docker exec -it objectstore-app sh
-
-# Stop and remove container
-docker stop objectstore-app
-docker rm objectstore-app
-
-# Remove image
-docker rmi objectstore-app
-```
-
-#### Docker Compose Commands
-
-```bash
-# Start services (includes Prometheus)
-docker-compose up
-
-# Start in background
-docker-compose up -d
-
-# Rebuild and start
-docker-compose up --build
-
-# View logs
-docker-compose logs -f
-
-# View logs for specific service
-docker-compose logs -f app
-docker-compose logs -f postgres
-docker-compose logs -f prometheus
-
-# Stop services
-docker-compose stop
-
-# Stop and remove containers
-docker-compose down
-
-# Stop, remove containers and volumes
-docker-compose down -v
-
-# Scale services (if needed)
-docker-compose up --scale app=2
-```
-
-**Note:** When using Docker Compose, the following services are available:
-- **Application:** http://localhost:8080
-- **Prometheus UI:** http://localhost:9090
-- **PostgreSQL:** localhost:5432
-
-#### Health Check
-
-The Docker container includes a health check that monitors the application:
-
-```bash
-# Check container health
-docker ps
-
-# Inspect health check status
-docker inspect --format='{{.State.Health.Status}}' objectstore-app
-```
+For Docker deployment instructions, including Docker Compose setup, building images, running containers, environment variables, and all Docker-related commands, see [DOCKER.md](DOCKER.md).
 
 ### Configuring Log Levels
 
@@ -634,18 +493,7 @@ The project includes a `prometheus.yml` configuration file that's ready to use. 
 
 ##### Option 1: Using Docker Compose (Recommended)
 
-Prometheus is included in the `docker-compose.yml` file and will start automatically:
-
-```bash
-# Start all services including Prometheus
-docker-compose up -d
-
-# Check Prometheus is running
-docker-compose ps
-
-# View Prometheus logs
-docker-compose logs -f prometheus
-```
+For Docker Compose setup, see [DOCKER.md](DOCKER.md). Prometheus is included in the `docker-compose.yml` file and will start automatically when you run `docker-compose up -d`.
 
 Prometheus UI will be available at: **http://localhost:9090**
 
@@ -675,14 +523,7 @@ If you want to run Prometheus separately (without Docker Compose):
 
 ##### Option 3: Using Docker (Standalone)
 
-```bash
-# Run Prometheus container
-docker run -d \
-  --name prometheus \
-  -p 9090:9090 \
-  -v $(pwd)/prometheus.yml:/etc/prometheus/prometheus.yml:ro \
-  prom/prometheus:latest
-```
+For Docker setup, see [DOCKER.md](DOCKER.md).
 
 #### Using Prometheus UI
 
@@ -749,11 +590,10 @@ The project includes Prometheus Alertmanager for email notifications. Alerts are
    - Update `alertmanager.yml` with your App Password
 
 2. **Start Services:**
-   ```bash
-   docker-compose up -d
-   ```
+   - For Docker Compose setup, see [DOCKER.md](DOCKER.md)
+   - Or run Prometheus and Alertmanager manually
 
-3. **Access Alertmanager UI:** http://localhost:9090/alerts
+3. **Access Alertmanager UI:** http://localhost:9093
 
 ##### Test Alert
 
