@@ -16,8 +16,7 @@ Share how you designed it
   * prometheus 
   * alertmanager
 * Docker setup
-  * containers
-  * why docker?
+  * containers (isolated)
   * improvements
     * image publishing
     * trusted dockerfile base image (maven:3.8.6-openjdk-11-slim)
