@@ -2,6 +2,7 @@ package com.mercor.objectstore.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mercor.objectstore.model.TextObject;
+import com.mercor.objectstore.service.MetricsService;
 import com.mercor.objectstore.service.TextObjectService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -33,6 +34,9 @@ class TextObjectControllerTest {
     @Mock
     private TextObjectService service;
 
+    @Mock
+    private MetricsService metricsService;
+
     @InjectMocks
     private TextObjectController controller;
 
@@ -51,6 +55,12 @@ class TextObjectControllerTest {
         testObject = new TextObject(testKey, testContent);
         testObject.setId(1L);
         testObject.setCreatedAt(LocalDateTime.now());
+        
+        // Mock metrics service methods to avoid NullPointerException (lenient to avoid unnecessary stubbing warnings)
+        lenient().doNothing().when(metricsService).incrementObjectCreated();
+        lenient().doNothing().when(metricsService).incrementObjectUpdated();
+        lenient().doNothing().when(metricsService).incrementObjectDeleted();
+        lenient().doNothing().when(metricsService).incrementObjectRetrieved();
     }
 
     @Test
