@@ -1,4 +1,5 @@
 Share your code (via zip file or github repo): Github
+
 Share how you designed it
 * Spring MVC (model, view, controller) pattern
 * Controller endpoints
@@ -18,9 +19,9 @@ Share how you designed it
 * Docker setup
   * containers (isolated)
   * improvements
-    * image publishing
-    * trusted dockerfile base image (maven:3.8.6-openjdk-11-slim)
-      * image scanning for vulnerabilities
+    * image publishing (priavate registry)
+    * trusted dockerfile base image (maven:3.8.6-openjdk-11-slim), custom base image
+      * image scanning for vulnerabilities, etc
 * Prometheus
   * scrape configs 
   * basic prometheus architecture
@@ -28,10 +29,8 @@ Share how you designed it
   * alerting rules (alert_rules.yml)
   * alert emails + alert UI
   * improvements
-    * better alerting mechanism for teams
-    * no limits/restrictions for high cardinality metrics
+    * better alerting mechanism for teams (pagerduty, and others like opsgenie)
     * No dashboards for visualizing metrics trends (Grafana, SignalFx, Datadog, etc)
-    * 
 
 Share how you observe the system
 * docker container logs
@@ -44,8 +43,8 @@ Describe what breaks under load
 * Large POST requests of data
   * network throughput
   * DB 
-    * Storage: (50TB+)
-    * 
+    * Storage: (50TiB+)
+    * read/write QPS
 * Packet loss/increase latency for high QPS to endpoints
   * 
 
@@ -90,3 +89,4 @@ Describe what would you do if you have more time
 * Integration testing against the current application + dependencies
   * K8s - Sonobuoy (K8s_conformance, custom plugins, etc)
 * Support for ARM and AMD images/builds
+* serialization format
