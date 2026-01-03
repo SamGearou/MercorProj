@@ -658,7 +658,7 @@ Here are practical curl examples you can use to interact with the API. Make sure
 
 ```bash
 # Comprehensive health check (includes database status)
-curl http://localhost:8080/health
+curl http://localhost:8080/healthhttp://localhost:8080/health
 
 # Simple health check
 curl http://localhost:8080/health/simple

@@ -4,7 +4,7 @@ groups:
     rules:
       # High Error Rate Alert
       - alert: HighErrorRate
-        expr: (rate(http_requests_errors[5m]) / rate(http_requests_total[5m])) > 0.05
+        expr: (rate(http_requests_errors[5m]) / rate(http_requests_total[5m])) > 0.05 # promQL queries
         for: 2m
         labels:
           severity: warning
