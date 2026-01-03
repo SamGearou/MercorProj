@@ -88,3 +88,4 @@ Describe what would you do if you have more time
 * Blob store rather than SQL database for storage
 * Integration testing against the current application + dependencies
   * K8s - Sonobuoy (K8s_conformance, custom plugins, etc)
+* Support for ARM and AMD images/builds
